@@ -1,4 +1,3 @@
-
 package main
 
 // slightly modified version of
@@ -56,4 +55,3 @@ func MergeSort[S ~[]E, E cmp.Ordered](data S, r chan S) {
 	r <- Merge(ldata, rdata)
 	return
 }
-

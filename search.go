@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -33,7 +34,7 @@ func search(fn string, key string, fold bool) {
 		mid = lo + (hi-lo)/2
 		//fmt.Println("Looping", lo, mid, hi, hi-lo)
 		n, err = f.ReadAt(buf, mid)
-		if err != nil && err != io.EOF && n == 0 {
+		if err != nil && !errors.Is(err, io.EOF) && n == 0 {
 			fmt.Println("ReadAt", mid, n, err)
 			log.Fatal(err)
 		}
@@ -43,7 +44,7 @@ func search(fn string, key string, fold bool) {
 			//fmt.Println("linear")
 
 			n, err = f.ReadAt(buf, lo)
-			if err != nil && err != io.EOF && n == 0 {
+			if err != nil && !errors.Is(err, io.EOF) && n == 0 {
 				fmt.Println("ReadAt", lo, n, err)
 				log.Fatal(err)
 			}
@@ -54,7 +55,7 @@ func search(fn string, key string, fold bool) {
 				//fmt.Println("lo close to hi")
 				line, err = br.ReadString('\n')
 				if err != nil {
-					if err == io.EOF {
+					if errors.Is(err, io.EOF) {
 						return
 					}
 					log.Fatal(err)
@@ -80,7 +81,7 @@ func search(fn string, key string, fold bool) {
 				//fmt.Println("true")
 
 				n, err = f.ReadAt(buf, found)
-				if err != nil && err != io.EOF && n == 0 {
+				if err != nil && !errors.Is(err, io.EOF) && n == 0 {
 					fmt.Println("ReadAt", lo, n, err)
 					log.Fatal(err)
 				}
@@ -89,7 +90,7 @@ func search(fn string, key string, fold bool) {
 				for {
 					line, err = br.ReadString('\n')
 					if err != nil {
-						if err == io.EOF {
+						if errors.Is(err, io.EOF) {
 							return
 						}
 						log.Fatal(err)
@@ -114,7 +115,7 @@ func search(fn string, key string, fold bool) {
 		mid += int64(len(line))
 		line, err = br.ReadString('\n')
 		if err != nil {
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				return
 			}
 			log.Fatal(err)
