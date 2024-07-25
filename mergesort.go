@@ -29,29 +29,19 @@ func Merge[S ~[]E, E cmp.Ordered](ldata S, rdata S) (result S) {
 		}
 	}
 
-	return
+	return result
 }
 
 // func MergeSort(data []string, r chan []string) {
-func MergeSort[S ~[]E, E cmp.Ordered](data S, r chan S) {
+func MergeSort[S ~[]E, E cmp.Ordered](data S) []E {
 	if len(data) == 1 {
-		r <- data
-		return
+		return data
 	}
-
-	leftChan := make(chan S)
-	rightChan := make(chan S)
-	defer close(leftChan)
-	defer close(rightChan)
 
 	middle := len(data) / 2
 
-	go MergeSort(data[:middle], leftChan)
-	go MergeSort(data[middle:], rightChan)
+	ldata := MergeSort(data[:middle])
+	rdata := MergeSort(data[middle:])
 
-	ldata := <-leftChan
-	rdata := <-rightChan
-
-	r <- Merge(ldata, rdata)
-	return
+	return Merge(ldata, rdata)
 }

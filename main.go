@@ -58,18 +58,12 @@ func main() {
 	}
 	switch dtype {
 	case "int":
-		result := make(chan []uint64)
-		defer close(result)
-		go MergeSort(us, result)
-		r := <-result
+		r := MergeSort(us)
 		for _, v := range r {
 			fmt.Print(v)
 		}
 	case "string":
-		result := make(chan []string)
-		defer close(result)
-		go MergeSort(ss, result)
-		r := <-result
+		r := MergeSort(ss)
 		for _, v := range r {
 			fmt.Print(v)
 		}

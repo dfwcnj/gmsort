@@ -9,7 +9,7 @@ import (
 func Test_MergeSort(t *testing.T) {
 
 	var l uint = 32
-	ls := []uint{1, 2, 2<<4, 2<<8, 2<<16, 1 << 20}
+	ls := []uint{1, 2, 1 << 4, 1 << 8, 1 << 16, 1 << 20, 1 << 24}
 
 	for _, i := range ls {
 
@@ -18,9 +18,7 @@ func Test_MergeSort(t *testing.T) {
 		if len(lns) != int(i) {
 			log.Fatal("lns: wanted len ", i, " got ", len(lns))
 		}
-		result := make(chan []string)
-		MergeSort(lns, result)
-		rsl := <-result
+		rsl := MergeSort(lns)
 		if len(rsl) != int(i) {
 			log.Fatal("rsl: wanted len ", i, " got ", len(rsl))
 		}
