@@ -17,6 +17,9 @@ clean:
 	/bin/rm -f cgmsort cgmsort.test
 	/bin/rm -f cpu.prof mem.prof profile001.callgraph.out
 
+clobber: clean
+	rm -f *.test *.prof *.pdf
+
 profile:
 	go test -cpuprofile cpu.prof -memprofile mem.prof -bench .
 

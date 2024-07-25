@@ -1,3 +1,3 @@
-module gcmsort
+module gmsort
 
 go 1.22.3
